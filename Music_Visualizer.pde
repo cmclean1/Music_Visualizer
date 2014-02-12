@@ -5,6 +5,9 @@ import ddf.minim.analysis.*;
 import ddf.minim.ugens.*;
 import ddf.minim.effects.*;
 Minim minim;
+BeatDetect beat;
+AudioInput in;
+int tempo = 0;
 Button[] buttons;
 java.io.File folder;
 java.io.FilenameFilter jpgFilter = new java.io.FilenameFilter() {
@@ -40,7 +43,12 @@ void setup()
   buttons = new Button[filenames.length];
 
   minim = new Minim(this);
+  minim.debugOn();
   player = new AudioPlayer[filenames.length];
+  in = minim.getLineIn(Minim.STEREO, int(1024));
+  beat = new BeatDetect();
+
+
   for (int i = 0; i < player.length; i++)
   {
     player[i] = minim.loadFile(filenames[i]);
@@ -77,9 +85,9 @@ void menu()
 void visualize()
 {
   player[selected].play();
-  // first perform a forward fft on one of song's buffers
-  // I'm using the mix buffer
-  //  but you can use any one you like
+  beat.detect(in.mix);
+  fill(255);
+
   fft.forward(player[selected].left);
 
   stroke(255, 0, 0, 128);
