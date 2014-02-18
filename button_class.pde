@@ -32,6 +32,8 @@ class Button
       selected = whichPlayer;
       //player[whichPlayer].play();
       menu = false;
+        player[selected].play();
+
     }
   }
 }

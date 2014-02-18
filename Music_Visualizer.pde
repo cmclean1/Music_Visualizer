@@ -8,6 +8,7 @@ Minim minim;
 BeatDetect beat;
 AudioInput in;
 int tempo = 0;
+int whichVis = 1;
 Button[] buttons;
 java.io.File folder;
 java.io.FilenameFilter jpgFilter = new java.io.FilenameFilter() {
@@ -43,7 +44,7 @@ void setup()
   buttons = new Button[filenames.length];
 
   minim = new Minim(this);
-  minim.debugOn();
+ // minim.debugOn();
   player = new AudioPlayer[filenames.length];
   in = minim.getLineIn(Minim.STEREO, int(1024));
   beat = new BeatDetect();
@@ -62,6 +63,7 @@ void setup()
 }
 void draw()
 {
+  colorMode(RGB, 255, 255, 255);
   background(0);
   if (menu)
   {
@@ -84,45 +86,27 @@ void menu()
 }
 void visualize()
 {
-  player[selected].play();
   beat.detect(in.mix);
   fill(255);
-
-  fft.forward(player[selected].left);
-
-  stroke(255, 0, 0, 128);
-  for (int i = 0; i < fft.specSize(); i++)
+  if (whichVis == 1) 
   {
-    line(i, height, i, height - fft.getBand(i)*4);
+    visualize1();
   }
-  stroke(0, 0, 255, 128);
-
-  fft.forward(player[selected].right);
-  for (int i = 0; i < fft.specSize(); i++)
+  else if (whichVis == 2)
   {
-    line(width-i, height, width-i, height - fft.getBand(i)*4);
+    visualize2();
   }
-  stroke(random(255), random(255), random(255));
-
-  for (int i = 0; i < player[selected].left.size() - 1; i++)
+  else if (whichVis == 3)
   {
-    line(i, 50 + player[selected].left.get(i)*50, i+1, 50 + player[selected].left.get(i+1)*50);
-    line(i, 150 + player[selected].right.get(i)*50, i+1, 150 + player[selected].right.get(i+1)*50);
+    visualize3();
+  }  
+  else if (whichVis == 4)
+  {
+    visualize4();
   }
-  stroke(random(255), random(255), random(255));
-  for (int i = 0; i < player[selected].left.size() - 1; i++)
+  else if (whichVis == 5)
   {
-    line(mouseX, mouseY, mouseX + player[selected].left.get(i)*50, mouseY + player[selected].right.get(i)*50);
-    line(mouseX, mouseY, mouseX - player[selected].right.get(i)*50, mouseY - player[selected].left.get(i)*50);
-    line(mouseX, mouseY, mouseX + player[selected].left.get(i)*-50, mouseY + player[selected].right.get(i)*-50);
-    line(mouseX, mouseY, mouseX - player[selected].right.get(i)*-50, mouseY - player[selected].left.get(i)*-50);
-  }
-  fill(random(255), random(255), random(255));
-  for (int i = 0; i < player[selected].mix.size(); i++)
-  {
-    noStroke();
-    fft.forward(player[selected].mix);
-    ellipse((player[selected].mix.size()-i), height/2, player[selected].mix.get(i)*50, player[selected].mix.get(i)*50);
+    visualize5();
   }
 }
 void keyPressed()
@@ -142,6 +126,17 @@ void keyPressed()
     {
       transAmount = 0;
     }
+  }
+}
+void mousePressed()
+{
+  if (!menu)
+  {
+    whichVis++;
+  }
+  if (whichVis > 5)
+  {
+    whichVis = 1;
   }
 }
 
