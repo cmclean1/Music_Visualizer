@@ -49,15 +49,15 @@ void visualize5()
 {
   colorMode(HSB, 360, 100, 100);
   color c = color((frameCount % 360), 100, 100);
- 
-  stroke((360-(frameCount % 360)),100,100);
+  stroke((360-(frameCount % 360)), 100, 100);
   strokeWeight(1);
-  for (int i = 0; i < 360; i++)
+  for (int i = 0; i < player[selected].mix.size(); i++)
   {
-    line(cos(degrees(i))*25+(width/2), (height/2)+sin(degrees(i))*25, cos(degrees(i))*abs(player[selected].mix.get(i))*1000+(width/2), (height/2)+sin(degrees(i))*abs(player[selected].mix.get(i))*1000);
+    float wut = i;
+    line(cos(degrees(map(wut, 0, player[selected].mix.size(), 0, 360)))*25+(width/2), (height/2)+sin(degrees(map(wut, 0, player[selected].mix.size(), 0, 360)))*25, cos(degrees(map(wut, 0, player[selected].mix.size(), 0, 360)))*abs(player[selected].mix.get(i))*1000+(width/2), (height/2)+sin(degrees(map(wut, 0, player[selected].mix.size(), 0, 360)))*abs(player[selected].mix.get(i))*1000);
   }
-   fill(c);
+  fill(c);
   noStroke();
- ellipse(width/2, height/2, 60+(player[selected].mix.get(0)*10), 60+(player[selected].mix.get(0)*10));
+  ellipse(width/2, height/2, 60+(player[selected].mix.get(0)*10), 60+(player[selected].mix.get(0)*10));
 }
 

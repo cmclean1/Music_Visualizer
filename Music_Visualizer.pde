@@ -16,11 +16,7 @@ java.io.FilenameFilter jpgFilter = new java.io.FilenameFilter() {
     return name.toLowerCase().endsWith(".mp3");
   }
 };
-java.io.FilenameFilter jpgFilter1 = new java.io.FilenameFilter() {
-  boolean accept(File dir, String name) {
-    return name.toLowerCase().endsWith(".m4a");
-  }
-};
+
 String[] filenames;
 String[] filenames1;
 
@@ -35,12 +31,6 @@ void setup()
   size(512, 200);
   folder = new java.io.File(dataPath(""));
   filenames = folder.list(jpgFilter);
-  filenames1 = folder.list(jpgFilter1);
-
-  for (int i = 0; i < filenames1.length; i++)
-  {
-    filenames = append(filenames, filenames1[i]);
-  }
   buttons = new Button[filenames.length];
 
   minim = new Minim(this);
