@@ -34,7 +34,7 @@ void setup()
   buttons = new Button[filenames.length];
 
   minim = new Minim(this);
- // minim.debugOn();
+  // minim.debugOn();
   player = new AudioPlayer[filenames.length];
   in = minim.getLineIn(Minim.STEREO, int(1024));
   beat = new BeatDetect();
@@ -60,8 +60,7 @@ void draw()
     translate(transAmount, 0);
 
     menu();
-  }
-  else
+  } else
   {
     visualize();
   }
@@ -81,40 +80,47 @@ void visualize()
   if (whichVis == 1) 
   {
     visualize1();
-  }
-  else if (whichVis == 2)
+  } else if (whichVis == 2)
   {
     visualize2();
-  }
-  else if (whichVis == 3)
+  } else if (whichVis == 3)
   {
     visualize3();
-  }  
-  else if (whichVis == 4)
+  } else if (whichVis == 4)
   {
     visualize4();
-  }
-  else if (whichVis == 5)
+  } else if (whichVis == 5)
   {
     visualize5();
   }
 }
 void keyPressed()
 {
-  if (keyCode == RIGHT)
+  if (menu)
   {
-    transAmount-=10;
-    if (transAmount < transMax)
+    if (keyCode == RIGHT)
     {
-      transAmount = transMax;
+      transAmount-=10;
+      if (transAmount < transMax)
+      {
+        transAmount = transMax;
+      }
     }
-  }
-  if (keyCode == LEFT)
-  {
-    transAmount+=10;
-    if (transAmount > 0)
+    if (keyCode == LEFT)
     {
-      transAmount = 0;
+      transAmount+=10;
+      if (transAmount > 0)
+      {
+        transAmount = 0;
+      }
+    }
+  } else
+  {
+    if (key == 'b' || key == 'B')
+    {
+      menu = true;
+      player[selected].pause();
+      player[selected].rewind();
     }
   }
 }
